@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Terminal Portfolio</title>
+    <style>
+      body {
+        background-color: #0d1116;
+        color: #33ff33;
+        font-family: monospace;
+        font-weight: bold;
+        font-size: 1em;
+        margin: 0;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        min-height: 100vh;
+        overflow-y: auto;
+      }
+
+      pre {
+        color: #58a6ff;
+        font-weight: bold;
+        margin: 0 auto 20px;
+        text-align: center;
+      }
+
+      #terminal {
+        width: 100%;
+        max-width: 800px;
+        padding: 20px;
+        background-color: #0d1116;
+        margin: 0 auto;
+        overflow-y: visible;
+      }
+
+      .input-line {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+      }
+
+      .prompt {
+        color: #14a798;
+        margin-right: 5px;
+        font-weight: bold;
+        font-size: 1.2em;
+      }
+
+      .output {
+        margin-top: 5px;
+        line-height: 1.8;
+        font-size: 1.3em;
+      }
+
+      .output .error {
+        color: #ff3333;
+        font-weight: bold;
+      }
+
+      .output .highlight {
+        color: #3399ff;
+        font-weight: bold;
+      }
+
+      .output .important {
+        color: #ffcc33;
+        font-weight: bold;
+      }
+
+      input {
+        background-color: transparent;
+        color: #33ff33;
+        border: none;
+        outline: none;
+        font-family: monospace;
+        width: 100%;
+        caret-color: #33ff33;
+        font-size: 1.5em;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ASCII Art Banner for "AAKASH" -->
+    <pre class="text-[#58a6ff] font-bold mb-4">
+  ___        _             _     
+ / _ \      | |           | |    
+/ /_\ \ __ _| | ____ _ ___| |__  
+|  _  |/ _` | |/ / _` / __| '_ \ 
+| | | | (_| |   < (_| \__ \ | | |
+\_| |_/\__,_|_|\_\__,_|___/_| |_|
+
+
+  ___    ___   _   __  ___   _____ _   _ 
+ / _ \  / _ \ | | / / / _ \ /  ___| | | |
+/ /_\ \/ /_\ \| |/ / / /_\ \\ `--.| |_| |
+|  _  ||  _  ||    \ |  _  | `--. \  _  |
+| | | || | | || |\  \| | | |/\__/ / | | |
+\_| |_/\_| |_/\_| \_/\_| |_/\____/\_| |_/
+                                         
+                                         
+
+</pre>
+
+    <div id="terminal">
+      <div id="output">
+        <div class="output">Welcome to my portfolio!</div>
+        <div class="output">
+          Type <span class="highlight">help</span> to get a list of available
+          commands.
+        </div>
+        <div class="output">Use ↑ and ↓ to navigate command history.</div>
+      </div>
+      <div class="input-line">
+        <span class="prompt">visitor@aakash:~$</span>
+        <input type="text" id="input" autofocus />
+      </div>
+    </div>
+
+    <script>
+      const output = document.getElementById("output");
+      const input = document.getElementById("input");
+      const commandHistory = [];
+      let historyIndex = -1;
+
+      // Ensure input is always in focus for typing automatically
+      input.focus();
+      document.addEventListener("click", () => input.focus());
+
+      input.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+          const command = input.value.trim();
+
+          // Display the command before the response
+          const commandLine = document.createElement("div");
+          commandLine.classList.add("output");
+          commandLine.innerHTML = `<span class="prompt">visitor@aakash:~$</span> ${command}`;
+          output.appendChild(commandLine);
+
+          input.value = "";
+          processCommand(command);
+          commandHistory.push(command);
+          historyIndex = commandHistory.length;
+        } else if (event.key === "ArrowUp") {
+          if (historyIndex > 0) {
+            historyIndex--;
+            input.value = commandHistory[historyIndex];
+          }
+        } else if (event.key === "ArrowDown") {
+          if (historyIndex < commandHistory.length - 1) {
+            historyIndex++;
+            input.value = commandHistory[historyIndex];
+          } else {
+            input.value = "";
+          }
+        }
+      });
+
+      function processCommand(command) {
+        const outputLine = document.createElement("div");
+        outputLine.classList.add("output");
+
+        switch (command.toLowerCase()) {
+          case "help":
+            outputLine.innerHTML = `
+              <span class="highlight">Available commands:</span><br>
+              <span class="important">about</span>      - Learn more about me<br>
+              <span class="important">socials</span>    - Find me on the web<br>
+              <span class="important">skills</span>     - Check out my technical skills<br>
+              <span class="important">projects</span>   - View some of my cool projects<br>
+              <span class="important">resume</span>     - Take a look at my resume<br>
+              <span class="important">experience</span> - Explore my professional journey<br>
+              <span class="important">goals</span>      - Discover my aspirations<br>
+              <span class="important">clear</span>      - Clear the terminal<br>
+              <span class="error">sudo rm -rf /*</span> - Try at your own risk!
+            `;
+            break;
+          case "about":
+            outputLine.innerHTML =
+              'Hi, I am Aakash, a <span class="highlight">backend developer</span> from India with <span class="highlight">4+ years of experience</span>, specializing in <span class="important">JavaScript/TypeScript NestJS projects</span>.';
+            break;
+          case "socials":
+            outputLine.innerHTML = `
+              Twitter: <a href="https://x.com/TheAkkiRana123" target="_blank" style="color: #3399ff;">twitter.com/TheAkkiRana123</a><br>
+              LinkedIn: <a href="https://www.linkedin.com/in/rana-aakash/" target="_blank" style="color: #3399ff;">linkedin.com/in/rana-aakash</a><br>
+              Gmail: <a href="mailto:rana.aaki@gmail.com" target="_blank" style="color: #3399ff;">rana.aaki@gmail.com</a>
+            `;
+            break;
+          case "skills":
+            outputLine.innerHTML =
+              'Languages: <span class="highlight">JavaScript</span>, <span class="highlight">TypeScript</span>, <span class="highlight">Java</span>, <span class="highlight">Python</span>.<br>Tech Stack: <span class="highlight">NestJS</span>, <span class="highlight">Node.js</span>, <span class="highlight">Docker</span>, <span class="highlight">AWS</span>, <span class="highlight">Kubernetes</span>, <span class="highlight">Redis</span>, <span class="highlight">MySQL</span>, <span class="highlight">MongoDB</span>, <span class="highlight">GraphQL</span>.';
+            break;
+          case "projects":
+            outputLine.innerHTML =
+              '<span class="important">Project1</span> - Description<br><span class="important">Project2</span> - Description<br>...';
+            break;
+          case "resume":
+            outputLine.innerHTML =
+              'Check out my resume: <a href="resume_link_here" target="_blank" style="color: #3399ff;">Resume Link</a>';
+            break;
+          case "experience":
+            outputLine.innerHTML =
+              'I have <span class="highlight">4+ years of experience</span> in backend development, including working on <span class="important">scalable services</span> and <span class="important">cloud infrastructure</span>.';
+            break;
+          case "goals":
+            outputLine.innerHTML =
+              'My goal is to deepen my expertise in <span class="highlight">backend technologies</span> and <span class="highlight">cloud infrastructure</span>.';
+            break;
+          case "clear":
+            output.innerHTML = "";
+            break;
+          case "sudo rm -rf /*":
+            outputLine.innerHTML =
+              '<span class="error">Warning: Action not permitted.</span>';
+            break;
+          default:
+            outputLine.innerHTML = `<span class="error">${command}: command not found</span>`;
+        }
+
+        output.appendChild(outputLine);
+        output.scrollTop = output.scrollHeight;
+      }
+    </script>
+  </body>
+</html>
