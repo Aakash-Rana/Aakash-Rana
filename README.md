@@ -76,3 +76,5 @@ l
 <!--<p><img align="centre" width="400" src="https://github-readme-streak-stats.herokuapp.com/?user=Aakash-Rana&" alt="Aakash-Rana" /></p>-->
 <p>&nbsp;<img align="centre" width="400" src="https://github-readme-stats.vercel.app/api?username=Aakash-Rana&show_icons=true&locale=en" alt="vivek-panchal" /></p>
 
+Check out my [interactive terminal portfolio](https://aakash-rana.github.io/Aakash-Rana/terminalPortfolio.html)!
+
